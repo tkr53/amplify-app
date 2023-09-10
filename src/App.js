@@ -33,7 +33,7 @@ const reducer = (state, action) => {
 
 async function createNewTodo() {
   const todo = { name: "Use AWS AppSync", description: "RealTime and Offline"};
-  await API.graphqlOperation(graphqlOperation(createTodo, {input: todo}))
+  await API.graphql(graphqlOperation(createTodo, {input: todo}))
 }
 
 function App() {
@@ -41,12 +41,12 @@ function App() {
 
   useEffect(() => {
     async function getData() {
-      const todoData = await API.graphqlOperation(graphqlOperation(listTodos))
+      const todoData = await API.graphql(graphqlOperation(listTodos))
       dispatch({type: QUERY, todos: todoData.data.listTodos.items})
     }
     getData();
 
-    const subscription = API.graphqlOperation(graphqlOperation(onCreateTodo)).subscribe({
+    const subscription = API.graphql(graphqlOperation(onCreateTodo)).subscribe({
       next: (eventData) => {
         const todo = eventData.value.data.onCreateTodo
         dispatch({type: SUBSCRITION, todo})
